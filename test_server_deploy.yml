@@ -17,4 +17,4 @@
       enabled: true
 
   - name: deploy to test-server
-    command: docker run -itd -o 8082:8082 manofoever/medicure:1.0
+    command: docker run -itd -p 8082:8082 manofoever/medicure:1.0
