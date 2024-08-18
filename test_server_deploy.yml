@@ -1,0 +1,20 @@
+- hosts: test-server
+  become: true
+  tasks:
+  - name: update cache
+    apt:
+      update_cache: yes
+
+  - name: install docker
+    apt:
+      pkg: docker.io
+      state: present
+
+  - name: start docker service
+    service:
+      name: docker
+      state: started
+      enabled: true
+
+  - name: deploy to test-server
+    command: docker run -itd -o 8082:8082 manofoever/medicure:1.0
