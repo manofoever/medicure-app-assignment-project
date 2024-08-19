@@ -16,5 +16,18 @@
       state: started
       enabled: true
 
+  - name: List all running Docker containers
+    docker_container_info:
+      filters:
+        status: running
+      register: running_containers
+
+  - name: Stop all running Docker containers
+    docker_container:
+      name: "{{ item.Id }}"
+      state: stopped
+    loop: "{{ running_containers.containers }}"
+
+
   - name: deploy to prod-server
     command: docker run -itd -p 8082:8082 manofoever/medicure:1.0
