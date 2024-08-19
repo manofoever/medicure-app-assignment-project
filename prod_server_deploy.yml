@@ -17,16 +17,13 @@
       enabled: true
 
   - name: List all running Docker containers
-    docker_container_info:
-      filters:
-        status: running
-      register: running_containers
+    command: docker ps -q
+    register: running_container_ids
+    changed_when: false
 
   - name: Stop all running Docker containers
-    docker_container:
-      name: "{{ item.Id }}"
-      state: stopped
-    loop: "{{ running_containers.containers }}"
+    command: docker stop {{ item }}
+    loop: "{{ running_container_ids.stdout_lines }}"
 
 
   - name: deploy to prod-server
